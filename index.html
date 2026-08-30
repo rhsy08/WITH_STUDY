@@ -154,7 +154,25 @@ draw();
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 }
-</script>
+<script>
+// 기존 서비스 워커를 강력하게 해제하고 브라우저 내부 캐시를 폭파하는 코드
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister().then(function(boolean) {
+        console.log('기존 좀비 워커 해제 완료:', boolean);
+      });
+    }
+  });
+}
+
+// 사파리 내부에 쌓인 캐시 스토리지까지 완전히 강제 삭제
+if ('caches' in window) {
+  caches.keys().then(function(names) {
+    for (let name of names) caches.delete(name);
+  });
+}
+
 </body>
 </html>
 
