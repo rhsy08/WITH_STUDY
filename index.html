@@ -1,14 +1,9 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<!-- 1. 사파리 아이콘 강제 동기화 (버전 쿼리스트링 부여) -->
-<link rel="apple-touch-icon" sizes="180x180" href="./abcd.png?v=9">
-<link rel="icon" type="image/png" sizes="180x180" href="./abcd.png?v=9">
-
+<link rel="apple-touch-icon" href="./abcd.png">
 <meta charset="utf-8">
-<!-- 2. 모바일 화면 변형 방지 및 반응형 레이아웃 뷰포트 설정 -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#fff1e7">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,9 +13,7 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;padding:14px;background:#fff1e7;font-family:Arial,"Noto Sans KR",sans-serif}
-
-/* 3. 모바일에서 패널과 캔버스가 화면 밖으로 깨지지 않게 유연한 가로폭(100%) 지정 */
-.wrap{width:100%;max-width:560px;margin:auto}
+.wrap{max-width:560px;margin:auto}
 .panel{background:#fff;border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 5px 18px #00000012}
 input{width:100%;padding:14px 12px;border:1px solid #e3d7da;border-radius:11px;font-size:16px;margin:4px 0}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
@@ -29,9 +22,7 @@ button{border:0;border-radius:11px;padding:12px 8px;font-weight:800;background:#
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .gray{background:#eee;color:#444}
 .help{font-size:12px;color:#777;line-height:1.5;margin-top:9px}
-
-/* 4. 대형 캔버스(1080x1920)가 모바일 좁은 화면에서도 비율에 맞춰 축소되도록 자동 조절 */
-canvas{width:100% !important;height:auto !important;display:block;border-radius:30px;box-shadow:0 8px 24px #00000018}
+canvas{width:100%;height:auto;display:block;border-radius:30px;box-shadow:0 8px 24px #00000018}
 .hidden{display:none}
 </style>
 </head>
@@ -154,25 +145,7 @@ draw();
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 }
-<script>
-// 기존 서비스 워커를 강력하게 해제하고 브라우저 내부 캐시를 폭파하는 코드
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      registration.unregister().then(function(boolean) {
-        console.log('기존 좀비 워커 해제 완료:', boolean);
-      });
-    }
-  });
-}
-
-// 사파리 내부에 쌓인 캐시 스토리지까지 완전히 강제 삭제
-if ('caches' in window) {
-  caches.keys().then(function(names) {
-    for (let name of names) caches.delete(name);
-  });
-}
+</script>
 
 </body>
 </html>
-
